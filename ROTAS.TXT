@@ -1,0 +1,9 @@
++--------+----------+-----------------+------+------------------------------------------------+--------------+
+| Domain | Method   | URI             | Name | Action                                         | Middleware   |
++--------+----------+-----------------+------+------------------------------------------------+--------------+
+|        | GET|HEAD | /               |      | Closure                                        | web          |
+|        | GET|HEAD | api/cities      |      | App\Http\Controllers\RegisterController@cities | api          |
+|        | POST     | api/cities/save |      | App\Http\Controllers\RegisterController@create | api          |
+|        | GET|HEAD | api/user        |      | Closure                                        | api,auth:api |
+|        | GET|HEAD | register        |      | Closure                                        | web          |
++--------+----------+-----------------+------+------------------------------------------------+--------------+
