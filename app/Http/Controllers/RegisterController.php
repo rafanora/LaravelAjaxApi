@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use App\Register;
+
 
 
 class RegisterController extends Controller
@@ -36,6 +36,8 @@ class RegisterController extends Controller
         //     'name' => 'required|string|max:50',
         //     'ddl_city' => 'required'
         // ]);
+
+
 
         try {
             $name = $request->get('name');

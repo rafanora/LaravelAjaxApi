@@ -10,7 +10,7 @@
             <div class="card" style="padding: 10px;">
                 <label for="name">Name</label>
                 <input type="text" name="name" value=""><br>
-                <label for="ddl_city">city</label>
+                <label for="ddl_city">City</label>
                 <select id="ddl_city" name="ddl_city"></select>
                 <br>
 
@@ -26,6 +26,7 @@
     {{-- @if ($errors->any()) --}}
         <div class="alert alert-danger">
             <ul>
+                    {{$errors}}
                 @foreach ($errors->all() as $error)
                     <li>{{ $error }}</li>
                 @endforeach
