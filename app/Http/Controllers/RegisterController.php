@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Register;
 
-
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Redirect;
 
 class RegisterController extends Controller
 {
@@ -20,25 +21,64 @@ class RegisterController extends Controller
         $result = Register::all();
         return json_encode($result);
     }
+/**
+     * Show the form for creating a new resource.
+     * API
+     * @return \Illuminate\Http\Response
+     */
+    public function createapi(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:50',
+            'ddl_city' => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            return response($validator->errors(), 400);
+        }
+
+        $this->_create($request);
+        return 'true';
+    }
 
     /**
      * Show the form for creating a new resource.
-     *
+     * FORM
      * @return \Illuminate\Http\Response
      */
     public function create(Request $request)
     {
-        // $request->validate([
-        //     'name' => 'required',
-        //     'ddl_city' => 'required',
-        // ]);
-        // $validator = Validator::make($request->all(), [
-        //     'name' => 'required|string|max:50',
-        //     'ddl_city' => 'required'
-        // ]);
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:50',
+            'ddl_city' => 'required'
+        ]);
+        $errors = $validator->errors();
+        return Redirect::back()->withErrors($errors);
 
 
+        //tem que retornar o erro
 
+        $this->_create($request);
+        return response()->json(['sucesso'  => true, 'mensagem' => 'ok']);
+        // try {
+        //     $name = $request->get('name');
+        //     $city = $request->get('ddl_city');
+
+        //     $registers = new Register();
+        //     $registers->name = $name;
+        //     $registers->city = $city;
+        //     $registers->save();
+    
+        //     return json_encode(true);
+        // } catch (\Throwable $th) {
+        //     //throw $th;
+        //     echo($th);
+        //     return json_encode(false);
+        // }
+        
+    }
+
+    private function _create(Request $request){
         try {
             $name = $request->get('name');
             $city = $request->get('ddl_city');
@@ -54,7 +94,6 @@ class RegisterController extends Controller
             echo($th);
             return json_encode(false);
         }
-        
     }
 
     /**

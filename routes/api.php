@@ -22,7 +22,7 @@ Route::get('/register/cities', 'RegisterController@cities');
 
 Route::get('/register/registers', 'RegisterController@registers');
 
-Route::post('/register/save', 'RegisterController@create');
+Route::post('/register/save', 'RegisterController@createapi');
 
 // Route::delete('/register/delete', 'RegisterController@destroy');
 Route::delete('/register/delete/{id}', 'RegisterController@destroy');
