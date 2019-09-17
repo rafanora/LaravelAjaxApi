@@ -11,15 +11,7 @@
 |
 */
 
-Route::get('/welcome', function () {
-    return view('welcome');
-});
-
 Route::get('/', function () {
-    return view('register');
-});
-
-Route::post('/register/save2', function () {
     return view('register');
 });
 
