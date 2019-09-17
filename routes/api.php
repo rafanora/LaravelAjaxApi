@@ -24,5 +24,4 @@ Route::get('/register/registers', 'RegisterController@registers');
 
 Route::post('/register/save', 'RegisterController@createapi');
 
-// Route::delete('/register/delete', 'RegisterController@destroy');
 Route::delete('/register/delete/{id}', 'RegisterController@destroy');

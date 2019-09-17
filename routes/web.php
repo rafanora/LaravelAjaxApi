@@ -11,17 +11,17 @@
 |
 */
 
-Route::get('/', function () {
+Route::get('/welcome', function () {
     return view('welcome');
 });
 
-Route::get('/register', function () {
+Route::get('/', function () {
     return view('register');
 });
 
-Route::post('/register/save', function () {
+Route::post('/register/save2', function () {
     return view('register');
 });
 
-Route::post('/register/save1', 'RegisterController@create');
-
+Route::post('/register/save', 'RegisterController@create');
+Route::delete('/register/delete/{id}', 'RegisterController@destroy');

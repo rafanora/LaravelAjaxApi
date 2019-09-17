@@ -37,8 +37,11 @@ class RegisterController extends Controller
             return response($validator->errors(), 400);
         }
 
-        $this->_create($request);
-        return 'true';
+        if ( $request->get('id') > 0 ) {
+            return $this->_edit($request);
+        }else{
+            return $this->_create($request);
+        }
     }
 
     /**
@@ -52,34 +55,24 @@ class RegisterController extends Controller
             'name' => 'required|string|max:50',
             'ddl_city' => 'required'
         ]);
-        $errors = $validator->errors();
-        return Redirect::back()->withErrors($errors);
 
-
-        //tem que retornar o erro
-
-        $this->_create($request);
-        return response()->json(['sucesso'  => true, 'mensagem' => 'ok']);
-        // try {
-        //     $name = $request->get('name');
-        //     $city = $request->get('ddl_city');
-
-        //     $registers = new Register();
-        //     $registers->name = $name;
-        //     $registers->city = $city;
-        //     $registers->save();
-    
-        //     return json_encode(true);
-        // } catch (\Throwable $th) {
-        //     //throw $th;
-        //     echo($th);
-        //     return json_encode(false);
-        // }
+        if ($validator->fails()) {
+            return Redirect::back()->withErrors($validator->errors());
+        }
         
+        if ( $request->get('id') > 0 ) {
+            $this->_edit($request);
+        }else{
+            $this->_create($request);
+        }
+
+        return view('register');
     }
 
     private function _create(Request $request){
         try {
+            return(json_decode($request));
+            
             $name = $request->get('name');
             $city = $request->get('ddl_city');
 
@@ -90,8 +83,24 @@ class RegisterController extends Controller
     
             return json_encode(true);
         } catch (\Throwable $th) {
-            //throw $th;
-            echo($th);
+            return json_encode(false);
+        }
+    }
+
+    private function _edit($request){
+        try {
+            $name = $request->get('name');
+            $city = $request->get('ddl_city');
+            $id = $request->get('id');
+            
+            $registers = Register::find($id);
+            $registers->name = $name;
+            $registers->city = $city;
+            $registers->save();
+    
+            return json_encode(true);
+        } catch (\Throwable $th) {
+            throw $th;
             return json_encode(false);
         }
     }
@@ -162,8 +171,8 @@ class RegisterController extends Controller
     public function destroy($id)
     {
         try {
-            // Register::find($id)->delete();
-            return json_encode($id);
+            Register::find($id)->delete();
+            return json_encode(true);
         
         } catch (\Throwable $th) {
             return json_encode($th);
